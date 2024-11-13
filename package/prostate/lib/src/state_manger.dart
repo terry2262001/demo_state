@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:prostate/src/observable.dart';
 
 class StateManager {
@@ -5,7 +6,10 @@ class StateManager {
 
   T getState<T>(String key, {T? defaultValue}) {
     if (!_states.containsKey(key)){
-      _states[key] = Observable<T>(defaultValue as T);
+      if (defaultValue == null) {
+        throw FlutterError("No default value provided for key: $key");
+      }
+      _states[key] = Observable<T>(defaultValue);
     }
     return _states[key]?.value as T;
   }
