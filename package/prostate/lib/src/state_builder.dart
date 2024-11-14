@@ -1,5 +1,4 @@
-import 'package:flutter/widgets.dart';
-import 'package:prostate/prostate.dart';
+part of prostate;
 
 class StateBuilder<T> extends StatefulWidget {
   final String stateKey;

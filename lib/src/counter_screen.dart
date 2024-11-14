@@ -2,8 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:prostate/prostate.dart';
 
-import 'builder/state_builder.dart';
-
 class CounterScreen extends StatelessWidget {
   const CounterScreen({super.key});
 
@@ -19,7 +17,6 @@ class CounterScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Hiển thị số
             StateBuilder<int>(
               stateKey: 'counter',
               defaultValue: 0,
@@ -34,11 +31,9 @@ class CounterScreen extends StatelessWidget {
               },
             ),
             const SizedBox(height: 20),
-            // Các nút bấm
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Nút trừ
                 ElevatedButton(
                   onPressed: () {
                     final currentValue = stateManager.getState<int>('counter') ?? 0;
@@ -51,7 +46,6 @@ class CounterScreen extends StatelessWidget {
                   child: const Icon(Icons.remove),
                 ),
                 const SizedBox(width: 20),
-                // Nút cộng
                 ElevatedButton(
                   onPressed: () {
                     final currentValue = stateManager.getState<int>('counter') ?? 0;

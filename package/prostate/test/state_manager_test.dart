@@ -1,52 +1,96 @@
-import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:prostate/prostate.dart';
 
 void main() {
+  group('StateManager', () {
+    late StateManager stateManager;
 
-    test('Should return existing state value', () {
-      final stateManager = StateManager();
+    setUp(() {
+      stateManager = StateManager();
+    });
+
+    test('Set and get state', () {
       stateManager.setState<int>('counter', 5);
-      expect(stateManager.getState<int>('counter'), 5);
+
+      final state = stateManager.getState<int>('counter');
+
+      expect(state, 5);
     });
 
-    test('Should return defaultValue for unknown state', () {
-      final stateManager = StateManager();
-      final counter = stateManager.getState<int>('counter', defaultValue: 10);
-      expect(counter, 10);
-    });
+    test('State notifies listeners on update', () {
+      stateManager.setState<int>('counter', 5);
 
-    test('Should return null for unknown state without defaultValue', () {
-      final stateManager = StateManager();
-      expect(stateManager.getState<int?>('counter'), null);
-    });
+      int? notifiedValue;
+      stateManager.addStateListener<int>('counter', (value) {
+        notifiedValue = value;
+      });
 
-    test('Should throw error for type mismatch', () {
-      final stateManager = StateManager();
-      stateManager.setState<String>('counter', "hello");
-      expect(() => stateManager.getState<int>('counter'),  throwsA(isA<FlutterError>()));
-    });
-
-    test('Should allow null as a valid value', () {
-      final stateManager = StateManager();
-      stateManager.setState<int?>('counter', null);
-      expect(stateManager.getState<int?>('counter'), null);
-    });
-
-    test('Should reset state correctly', () {
-      final stateManager = StateManager();
       stateManager.setState<int>('counter', 10);
+
+      expect(notifiedValue, 10);
+    });
+
+    test('Throws error if type mismatch when adding listener', () {
+      stateManager.setState<int>('counter', 5);
+
+      expect(
+            () => stateManager.addStateListener<String>('counter', (_) {}),
+        throwsA(isA<StateError>()),
+      );
+    });
+
+    test('Reset state removes value and listeners', () {
+      stateManager.setState<int>('counter', 5);
+
       stateManager.resetState('counter');
-      expect(stateManager.getState<int?>('counter'), null);
+
+      expect(stateManager.getState<int>('counter'), isNull);
     });
 
-    test('Should initialize with defaultValue and update correctly', () {
-      final stateManager = StateManager();
-      final initialValue = stateManager.getState<int>('counter', defaultValue: 0);
-      expect(initialValue, 0);
+    test('Clearing all states works', () {
+      stateManager.setState<int>('counter', 5);
+      stateManager.setState<String>('username', 'John');
 
-      stateManager.setState<int>('counter', 20);
-      expect(stateManager.getState<int>('counter'), 20);
+      stateManager.clearAllState();
+
+      expect(stateManager.getState<int>('counter'), isNull);
+      expect(stateManager.getState<String>('username'), isNull);
     });
-  }
 
+    test('Set nested state updates the correct path', () {
+      stateManager.setNestedState('settings', 'dark', ['theme']);
+
+      final state = stateManager.getState<Map<String, dynamic>>('settings');
+
+      expect(state, {'theme': 'dark'});
+    });
+
+    test('Set nested state works with deeper paths', () {
+      stateManager.setNestedState('settings', 'dark', ['appearance', 'theme']);
+
+      final state = stateManager.getState<Map<String, dynamic>>('settings');
+
+      expect(state, {
+        'appearance': {'theme': 'dark'}
+      });
+    });
+
+    test('Get state history tracks updates', () {
+      stateManager.setState<int>('counter', 5);
+      stateManager.setState<int>('counter', 10);
+
+      final history = stateManager.getStateHistory('counter');
+
+      expect(history, [5, 10]);
+    });
+
+    test('Set async state updates the value', () async {
+      await stateManager.setStateAsync<int>('counter', Future.value(15));
+
+      final state = stateManager.getState<int>('counter');
+
+      expect(state, 15);
+    });
+
+  });
+}

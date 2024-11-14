@@ -15,7 +15,6 @@ class StateProvider extends InheritedWidget{
     return provider.stateManager;
   }
 
-
   @override
   bool updateShouldNotify(StateProvider oldWidget) {
     return stateManager != oldWidget.stateManager;

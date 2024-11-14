@@ -33,24 +33,32 @@ class StateManager {
 
   Future<void> setStateAsync<T>(String key, Future<T> futureValue) async {
     if(!_states.containsKey(key)) {
-      _states[key] = Observable<T>(null as T);
+      final initialValue = await futureValue;
+      _states[key] = Observable<T>(initialValue);
+    } else{
+      final state = _states[key];
+      if(state is Observable<T>) {
+        await state.setValueAsync(futureValue);
+      } else {
+        throw StateError(
+          'Type mismatch: Cannot set async value of type $T for state of type ${state.runtimeType}',
+        );
+      }
     }
-    await _states[key]?.setValueAsync(futureValue);
-
   }
 
   void setNestedState(String key, dynamic value, List<String> path){
-    var currentState = getState(key);
+    var currentState = getState<Map<String, dynamic>>(key);
     if(currentState == null) {
-      currentState = {};
+      currentState = <String, dynamic>{};
       setState(key, currentState);
     }
     var current = currentState;
     for(var i = 0; i < path.length -1; i++){
       if(current[path[i]] == null) {
-        current[path[i]] = {};
+        current[path[i]] = <String, dynamic>{};
       }
-      current = current[path[i]];
+      current = current[path[i]] as Map<String, dynamic>;
     }
     current[path.last] = value;
     setState(key, currentState);
