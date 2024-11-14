@@ -1,6 +1,4 @@
-
-import 'package:flutter/widgets.dart';
-import 'package:prostate/src/state_manger.dart';
+part of prostate;
 
 class StateProvider extends InheritedWidget{
   final StateManager stateManager;
