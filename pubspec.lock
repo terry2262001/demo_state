@@ -142,9 +142,10 @@ packages:
   prostate:
     dependency: "direct main"
     description:
-      path: "package/prostate"
-      relative: true
-    source: path
+      name: prostate
+      sha256: "555c83fc80196eb9a9e6daf4d8a85acb6c37abdd19fc32f7b9cc7152428a5a6c"
+      url: "https://pub.dev"
+    source: hosted
     version: "0.0.1"
   sky_engine:
     dependency: transitive
