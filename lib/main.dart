@@ -1,4 +1,4 @@
-import 'package:demo_state/src/product_screen.dart';
+import 'package:demo_state/src/screen/product_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:prostate/prostate.dart';
 

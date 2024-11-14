@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prostate/prostate.dart';
-import '../src/models/CartItem.dart';
+
+import '../models/CartItem.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});

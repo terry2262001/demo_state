@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:prostate/prostate.dart';
 
-import '../screen/cart_screen.dart';
-import 'models/CartItem.dart';
-import 'models/Product.dart';
+import '../models/CartItem.dart';
+import '../models/Product.dart';
+import 'cart_screen.dart';
 
 class ProductsScreen extends StatelessWidget {
   final List<Product> defaultProducts = [
