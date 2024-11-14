@@ -1,7 +1,7 @@
 name: prostate
-description: "A new Flutter package project."
+description: " A state management library for Flutter to simplify building reactive and maintainable UIs."
 version: 0.0.1
-homepage:
+homepage: https://github.com/terry2262001/prostate
 
 environment:
   sdk: ^3.5.4
