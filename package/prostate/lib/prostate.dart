@@ -1,7 +1,7 @@
 library prostate;
+import 'package:flutter/widgets.dart';
+import 'package:prostate/src/observable.dart';
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+part 'src/state_manger.dart';
+part 'src/state_provider.dart';
+part 'src/state_builder.dart';
