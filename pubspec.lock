@@ -143,10 +143,10 @@ packages:
     dependency: "direct main"
     description:
       name: prostate
-      sha256: "555c83fc80196eb9a9e6daf4d8a85acb6c37abdd19fc32f7b9cc7152428a5a6c"
+      sha256: "4a06981c5cb0cd512f9578d1719e2b5fbd83b95dac8e91886ed024c2b8f99aeb"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.1"
+    version: "0.0.2"
   sky_engine:
     dependency: transitive
     description: flutter
